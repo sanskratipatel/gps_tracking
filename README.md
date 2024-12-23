@@ -80,7 +80,7 @@ live_location_tracking/
 
 - Python 3.8 or higher  
 - PostgreSQL installed and running  
-- Node.js (for managing frontend assets, optional)  
+
 
 ### Installation Steps
 
@@ -150,30 +150,13 @@ live_location_tracking/
    - Update locations every 3 seconds (simulated in the project).
    - View live locations on the map in real time.
 
-3. **Admin Features**
-   - Admin users can view all user locations.
-   - Manage users and roles via the admin panel.
-
-4. **Password Recovery**
+3. **Password Recovery**
    - Request a password reset via email.
    - Follow the link to change your password.
 
 ---
 
-## **Environment Variables**
 
-For sensitive configurations, create a `.env` file in the root directory:
-
-```plaintext
-SECRET_KEY=your-django-secret-key
-DEBUG=True
-DATABASE_NAME=live_location_tracking
-DATABASE_USER=your-db-username
-DATABASE_PASSWORD=your-db-password
-OPEN_CAGE_API_KEY=your-opencage-api-key
-```
-
----
 
 ## **Technologies Used**
 
@@ -201,7 +184,7 @@ OPEN_CAGE_API_KEY=your-opencage-api-key
   Update the user’s live location.  
 - **GET** `/api/location-history/`  
   Retrieve location history for the user.  
-- **GET** `/api/admin-dashboard/`  
+- **GET** `/api/dashboard/`  
   Admin view of all users’ locations.  
 
 ---
