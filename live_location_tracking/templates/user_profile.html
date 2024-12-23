@@ -1,163 +1,56 @@
-<!-- {% load tz %}
-
+<!-- UserProfile.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ user.username }}'s Profile</title>
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            color: #fff;
-        }
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-        }
-        h2, h3 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        p {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .logout-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 10px;
-            background-color: #ff5757;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .logout-btn:hover {
-            background-color: #ff4040;
-        }
-        #map {
-            height: 400px;
-            width: 100%;
-            border-radius: 10px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>{{ user.username }}'s Profile</h2>
-
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>Date Joined:</strong> {{ date_joined }}</p>
-
-        <h3>Live Location</h3>
-        <p><strong>Latitude:</strong> <span id="latitude">{{ location_log.latitude }}</span></p>
-        <p><strong>Longitude:</strong> <span id="longitude">{{ location_log.longitude }}</span></p>
-        <p><strong>Last Updated:</strong> <span id="last-updated">{{ location_log.timestamp|localtime }}</span></p>
-
-        <div id="map"></div>
-
-        <button class="logout-btn" onclick="logout()">Logout</button>
-    </div>
-
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
-        // Initialize the map
-        var map = L.map('map').setView([0, 0], 13);  // Default to 0,0 location
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        // Create a marker to update the user's location
-        var marker = L.marker([0, 0]).addTo(map)
-            .bindPopup('Your location')
-            .openPopup();
-
-        // Function to fetch location and update the map
-        function updateLocation() {
-            fetch('/api/location/{{ user.id }}/')
-                .then(response => response.json())
-                .then(data => {
-                    var latitude = data.latitude;
-                    var longitude = data.longitude;
-                    var timestamp = data.timestamp;
-
-                    // Update the location data in the page
-                    document.getElementById('latitude').textContent = latitude;
-                    document.getElementById('longitude').textContent = longitude;
-                    document.getElementById('last-updated').textContent = timestamp;
-
-                    // Update the marker on the map
-                    marker.setLatLng([latitude, longitude]);
-                    map.setView([latitude, longitude], 13);  // Adjust map to center on new location
-                })
-                .catch(error => console.error('Error fetching location:', error));
-        }
-
-        // Update location every 4 seconds
-        setInterval(updateLocation, 4000);
-
-        // Initial update
-        updateLocation();
-
-        function logout() {
-            window.location.href = "/login/";
-        }
-    </script>
-</body>
-</html> -->
-{% load tz %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ user.username }}'s Profile</title>
-    <style>
-        /* Base Styling */
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            color: #fff;
+            background: #f4f4f9;
+            color: #333;
         }
 
         .container {
             max-width: 900px;
             margin: 50px auto;
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 20px;
+            background-color: #fff;
+            padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
         }
 
         h2, h3 {
             text-align: center;
-            margin-bottom: 20px;
         }
 
-        p {
+        #profile-info {
             text-align: center;
             margin-bottom: 20px;
         }
 
+        #location {
+            font-size: 1.2rem;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
         .logout-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 10px;
+            display: block;
+            width: 100%;
+            padding: 12px;
+            text-align: center;
+            margin-top: 20px;
             background-color: #ff5757;
             color: #fff;
             border: none;
@@ -169,94 +62,120 @@
         .logout-btn:hover {
             background-color: #ff4040;
         }
-
-        /* Map Styling */
         #map {
             height: 400px;
             width: 100%;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-
-        /* Responsive Styling */
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-                margin: 20px;
-            }
-
-            h2, h3 {
-                font-size: 1.5rem;
-            }
-
-            .logout-btn {
-                top: 10px;
-                right: 10px;
-            }
-
-            #map {
-                height: 300px;
-            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>{{ user.username }}'s Profile</h2>
-
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>Date Joined:</strong> {{ date_joined|localtime }}</p>
+        <h2>User Profile</h2>
+        <div id="profile-info">
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>ID:</strong> {{ user.id }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+        </div>
 
         <h3>Live Location</h3>
+        <div id="location">Loading location...</div>
         <div id="map"></div>
 
         <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
 
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        // Initialize the map with a better initial location (not [0,0] but the user's current location if available)
-        var map = L.map('map').setView([20.5937, 78.9629], 13);  // Example: India as a default center
-
-        // Tile Layer: OpenStreetMap (Lightweight and fast)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        // Create a marker to update the user's location
-        var marker = L.marker([20.5937, 78.9629]).addTo(map)  // Initial marker
-            .bindPopup('Your location')
-            .openPopup();
-
-        // Function to fetch location and update the map
-        function updateLocation() {
-            fetch('/api/location/{{ user.id }}/')
-                .then(response => response.json())
-                .then(data => {
-                    var latitude = data.latitude;
-                    var longitude = data.longitude;
-
-                    // Update the location data in the page
-                    document.getElementById('latitude').textContent = latitude;
-                    document.getElementById('longitude').textContent = longitude;
-
-                    // Update the marker on the map
-                    marker.setLatLng([latitude, longitude]);
-                    map.setView([latitude, longitude], 13);  // Adjust map to center on new location
-                })
-                .catch(error => console.error('Error fetching location:', error));
-        }
-
-        // Update location every 4 seconds
-        setInterval(updateLocation, 4000);
-
-        // Initial update
-        updateLocation();
-
+        let map, marker, userLat, userLng;
+        const apiKey = "fc9a4a78edaf447e8a856eefdedee99f"; // OpenCage API key
+    
         function logout() {
             window.location.href = "/login/";
         }
+    
+        // Initialize the map
+        function initMap(lat, lng) {
+            map = L.map('map').setView([lat, lng], 15);
+    
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+    
+            marker = L.marker([lat, lng]).addTo(map);
+        }
+    
+        // Get the address from OpenCage API
+        function getAddress(lat, lng) {
+            fetch(`https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${apiKey}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.results && data.results[0]) {
+                        const location = data.results[0].formatted;
+                        document.getElementById("location").innerText = location;
+                        if (marker) {
+                            marker.setLatLng([lat, lng]);
+                        } else {
+                            initMap(lat, lng);
+                        }
+    
+                        // Send location to backend every 3 seconds
+                        sendLocationToBackend(lat, lng, location);
+                    } else {
+                        document.getElementById("location").innerText = "Location not found";
+                    }
+                })
+                .catch(err => {
+                    console.error("Error fetching address:", err);
+                    document.getElementById("location").innerText = "Error fetching location";
+                });
+        }
+    
+        // Function to send location data to the backend
+        function sendLocationToBackend(lat, lng, location) {
+            fetch('/api/save-location/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    latitude: lat,
+                    longitude: lng,
+                    location_address: location
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Location saved:", data);
+            })
+            .catch(err => {
+                console.error("Error saving location:", err);
+            });
+        }
+    
+        // Update location every 3 seconds
+        function updateLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    userLat = position.coords.latitude;
+                    userLng = position.coords.longitude;
+                    getAddress(userLat, userLng);
+                }, function(error) {
+                    console.log("Error getting the user location:", error);
+                    document.getElementById("location").innerText = "Error getting location";
+                });
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+                document.getElementById("location").innerText = "Geolocation not supported";
+            }
+        }
+    
+        // Initialize location updates
+        setInterval(updateLocation, 3000);
+    
+        // Initial call to update the location
+        updateLocation();
     </script>
+    
 </body>
 </html>

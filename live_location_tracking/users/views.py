@@ -88,13 +88,4 @@ def dashboard(request):
     return render(request, 'dashboard.html', {'users': users})
 
 
-# def user_info(request, user_id):
-#     if not request.user.is_authenticated:
-#          return redirect('login')
-    
-#     # Fetch the specific user
-#     user = get_object_or_404(User, id=user_id)
-#     return render(request, 'user_detail.html', {'user': user})
-
-# from django.shortcuts import render
 

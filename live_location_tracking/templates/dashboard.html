@@ -1,4 +1,4 @@
-
+<!-- DashBoard.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,10 +15,10 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 50px auto;
             background-color: rgba(255, 255, 255, 0.1);
-            padding: 20px;
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
         }
@@ -40,7 +40,7 @@
         }
 
         table th, table td {
-            padding: 10px;
+            padding: 12px;
             text-align: center;
         }
 
@@ -70,7 +70,7 @@
         .logout-btn {
             display: block;
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             text-align: center;
             margin-top: 20px;
             background-color: #ff5757;
@@ -103,6 +103,7 @@
             <thead>
                 <tr>
                     <th>Username</th>
+                    <!-- <th>ID</th> -->
                     <th>Email</th>
                     <th>Actions</th>
                 </tr>
@@ -111,9 +112,12 @@
                 {% for user in users %}
                 <tr>
                     <td>{{ user.username }}</td>
+                    <td>{{ user.id }}</td>
                     <td>{{ user.email }}</td>
                     <td>
-                        <a href="{% url 'user_profile' user.id %}">Show Profile</a>
+                        <a href="{% url 'user_profile' user.id %}">
+                            <button>Show Details</button>
+                        </a>
                     </td>
                 </tr>
                 {% endfor %}
