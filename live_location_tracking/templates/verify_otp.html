@@ -1,0 +1,246 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .error {
+            color: red;
+            margin-bottom: 1rem;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        button {
+            padding: 0.8rem;
+            background-color: #2575fc;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Enter OTP</h2>
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+        <form method="POST" id="otpForm">
+            {% csrf_token %}
+            <label for="otp">Enter OTP sent to your email:</label>
+            <input type="text" id="otp" name="otp" placeholder="Enter OTP" required>
+            <input type="hidden" name="email" value="{{ email }}">
+            <button type="submit">Verify OTP</button>
+        </form>
+        <p><a href="/resend-otp/">Didn't receive OTP? Resend</a></p>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#otpForm').on('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                var email = $("input[name='email']").val();
+                var otp = $('#otp').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/verify-otp/', // Your URL for OTP verification
+                    data: {
+                        email: email,
+                        otp: otp,
+                        csrfmiddlewaretoken: '{{ csrf_token }}' // CSRF token for security
+                    },
+                    success: function(response) {
+                        // If OTP is correct, redirect to change password
+                        window.location.href = '/change-password/?email=' + email; // Pass email to change password page
+                    },
+                    error: function(xhr) {
+                        // Show error message if OTP is incorrect
+                        if (xhr.status === 400) {
+                            alert("Invalid OTP. Please try again.");
+                        } else {
+                            alert("An error occurred. Please try again.");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> -->  
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #271e31, #2575fc);
+            color: whitesmoke;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            color: whitesmoke;
+        }
+
+        label {
+            text-align: left;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            color: whitesmoke;
+        }
+
+        input[type="text"] {
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 0.8rem;
+            border: none;
+            background-color: #142748;
+            color: rgb(255, 255, 255);
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #778643;
+        }
+
+        p {
+            margin-top: 1rem;
+        }
+
+        p a {
+            color: #ffdd40;
+            text-decoration: none;
+        }
+
+        p a:hover {
+            text-decoration: underline;
+        }
+
+        .error {
+            color: #ff5757;
+            font-size: 1rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: rgba(255, 87, 87, 0.1);
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        /* Add responsive design for mobile devices */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 50px auto;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            input[type="text"], button {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Enter OTP</h2>
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+        <form method="POST" id="otpForm">
+            {% csrf_token %}
+            <label for="otp">Enter OTP sent to your email:</label>
+            <input type="text" id="otp" name="otp" placeholder="Enter OTP" required>
+            <input type="hidden" name="email" value="{{ email }}">
+            <button type="submit">Verify OTP</button>
+        </form>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#otpForm').on('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                var email = $("input[name='email']").val();
+                var otp = $('#otp').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/verify-otp/', // Your URL for OTP verification
+                    data: {
+                        email: email,
+                        otp: otp,
+                        csrfmiddlewaretoken: '{{ csrf_token }}' // CSRF token for security
+                    },
+                    success: function(response) {
+                        // If OTP is correct, redirect to change password
+                        window.location.href = '/change-password/?email=' + email; // Pass email to change password page
+                    },
+                    error: function(xhr) {
+                        // Show error message if OTP is incorrect
+                        if (xhr.status === 400) {
+                            alert("Invalid OTP. Please try again.");
+                        } else {
+                            alert("An error occurred. Please try again.");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

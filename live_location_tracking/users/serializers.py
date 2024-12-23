@@ -16,8 +16,10 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=100)
+    username_or_email = serializers.CharField(max_length=100)
+    
     password = serializers.CharField(max_length=100, write_only=True)
 
     def validate(self, data):
         return data
+ 

@@ -1,27 +1,3 @@
-<!-- login.html -->
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <h2>Login</h2>
-    <form method="POST" action="/login/">
-        {% csrf_token %}
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" required><br><br>
-
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
-
-        <button type="submit">Login</button>
-    </form>
-
-    <p>Don't have an account? <a href="/register/">Register here</a></p>
-</body>
-</html> -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,8 +7,8 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            color: #fff;
+            background: linear-gradient(135deg, #271e31, #2575fc);
+            color: whitesmoke;
             margin: 0;
             padding: 0;
             display: flex;
@@ -86,15 +62,15 @@
         button {
             padding: 0.8rem;
             border: none;
-            background-color: #2575fc;
-            color: white;
+            background-color: #142748;
+            color: rgb(255, 255, 255);
             font-size: 1rem;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #6a11cb;
+            background-color: #778643;
         }
         p {
             margin-top: 1rem;
@@ -108,45 +84,54 @@
         }
         .error {
             color: #ff5757;
-            font-size: 0.9rem;
-            margin-top: -0.8rem;
-            margin-bottom: 1rem;
-            display: none;
+            font-size: 1rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: rgba(255, 87, 87, 0.1);
+            border-radius: 5px;
+            text-align: center;
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const form = document.querySelector("form");
-            const usernameInput = document.getElementById("username");
-            const passwordInput = document.getElementById("password");
-            const togglePassword = document.querySelector(".toggle-password");
-            const errorMessage = document.createElement("div");
-            errorMessage.className = "error";
-            form.insertBefore(errorMessage, form.querySelector("button"));
-
+        $(document).ready(function() {
             // Toggle password visibility
-            togglePassword.addEventListener("click", function () {
-                const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
-                passwordInput.setAttribute("type", type);
-                togglePassword.textContent = type === "password" ? "👁" : "🙈";
+            $('.toggle-password').on('click', function() {
+                let passwordField = $('#password');
+                let passwordType = passwordField.attr('type');
+                if (passwordType === 'password') {
+                    passwordField.attr('type', 'text');
+                    $(this).text('🙈');  // Change the icon to hide password
+                } else {
+                    passwordField.attr('type', 'password');
+                    $(this).text('👁');  // Change the icon to show password
+                }
             });
 
-            form.addEventListener("submit", function (e) {
-                let valid = true;
-                errorMessage.style.display = "none";
+            // Handle form submission
+            $('#loginForm').on('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission
 
-                if (usernameInput.value.trim() === "") {
-                    valid = false;
-                    errorMessage.textContent = "Username is required.";
-                } else if (passwordInput.value.trim() === "") {
-                    valid = false;
-                    errorMessage.textContent = "Password is required.";
-                }
-
-                if (!valid) {
-                    e.preventDefault();
-                    errorMessage.style.display = "block";
-                }
+                $.ajax({
+                    type: 'POST',
+                    url: '/login/', // Your login URL
+                    data: {
+                        username_or_email: $('#username').val(), // Use 'username_or_email' here
+                        password: $('#password').val(),
+                        csrfmiddlewaretoken: '{{ csrf_token }}' // Include CSRF token
+                    },
+                    success: function(response) {
+                        alert(response.message); // Show success message
+                        window.location.href = '/dashboard/'; // Redirect to dashboard
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 401) {
+                            alert(xhr.responseJSON.error); // Show error message for invalid credentials
+                        } else {
+                            alert("An error occurred. Please try again.");
+                        }
+                    }
+                });
             });
         });
     </script>
@@ -154,9 +139,9 @@
 <body>
     <div class="container">
         <h2>Login</h2>
-        <form method="POST" action="/login/">
+        <form id="loginForm">
             {% csrf_token %}
-            <label for="username">Username:</label>
+            <label for="usernamel">Username:</label>
             <input type="text" id="username" name="username" placeholder="Enter your username" required>
 
             <label for="password">Password:</label>
@@ -168,13 +153,7 @@
             <button type="submit">Login</button>
         </form>
         <p>Don't have an account? <a href="/register/">Register here</a></p>
-
-        <!-- Error message for invalid login -->
-        {% if error_message %}
-            <div class="error">
-                <p>{{ error_message }}</p>
-            </div>
-        {% endif %}
+        <p><a href="/forgot-password/">Forgot password?</a></p>
     </div>
 </body>
 </html>

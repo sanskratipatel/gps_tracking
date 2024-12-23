@@ -1,4 +1,5 @@
-<!-- UserProfile.html -->
+<!-- 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +12,7 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background: #f4f4f9;
+            background: #f0f0f5;
             color: #333;
         }
 
@@ -19,52 +20,95 @@
             max-width: 900px;
             margin: 50px auto;
             background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
+            padding: 40px;
+            border-radius: 12px;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
         }
 
-        h2, h3 {
+        h2 {
             text-align: center;
+            font-size: 2rem;
+            color: #333;
+        }
+
+        h3 {
+            text-align: center;
+            color: #666;
+            margin-top: 20px;
         }
 
         #profile-info {
-            text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+        }
+
+        #profile-info p {
+            margin: 10px 0;
+        }
+
+        #profile-info strong {
+            color: #444;
         }
 
         #location {
             font-size: 1.2rem;
             text-align: center;
+            color: #555;
             margin-top: 20px;
+            font-weight: 500;
         }
 
         #map {
             height: 400px;
             width: 100%;
             margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .logout-btn {
             display: block;
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             text-align: center;
-            margin-top: 20px;
-            background-color: #ff5757;
+            margin-top: 30px;
+            background-color: #e74c3c;
             color: #fff;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-size: 1.1rem;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, transform 0.2s;
         }
 
         .logout-btn:hover {
-            background-color: #ff4040;
+            background-color: #c0392b;
+            transform: scale(1.05);
         }
-        #map {
-            height: 400px;
-            width: 100%;
+
+        /* Add media query for responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .logout-btn {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 1.2rem;
+            }
+
+            #location {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -176,6 +220,229 @@
         // Initial call to update the location
         updateLocation();
     </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            text-align: center;
+            color: #777;
+            margin-top: 20px;
+        }
+
+        #profile-info {
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+
+        #profile-info p {
+            margin: 10px 0;
+        }
+
+        #profile-info strong {
+            color: #444;
+        }
+
+        #location {
+            font-size: 1.2rem;
+            text-align: center;
+            color: #555;
+            margin-top: 20px;
+            font-weight: 500;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .logout-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            text-align: center;
+            margin-top: 30px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #c0392b;
+            transform: scale(1.05);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+
+            .logout-btn {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 1.4rem;
+            }
+
+            #location {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>User Profile</h2>
+        <div id="profile-info">
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>ID:</strong> {{ user.id }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+        </div>
+
+        <h3>Live Location</h3>
+        <div id="location">Loading location...</div>
+        <div id="map"></div>
+
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        let map, marker, userLat, userLng;
+        const apiKey = "fc9a4a78edaf447e8a856eefdedee99f"; // OpenCage API key
     
+        function logout() {
+            window.location.href = "/login/";
+        }
+    
+        // Initialize the map
+        function initMap(lat, lng) {
+            map = L.map('map').setView([lat, lng], 15);
+    
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+    
+            marker = L.marker([lat, lng]).addTo(map);
+        }
+    
+        // Get the address from OpenCage API
+        function getAddress(lat, lng) {
+            fetch(`https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${apiKey}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.results && data.results[0]) {
+                        const location = data.results[0].formatted;
+                        document.getElementById("location").innerText = location;
+                        if (marker) {
+                            marker.setLatLng([lat, lng]);
+                        } else {
+                            initMap(lat, lng);
+                        }
+    
+                        // Send location to backend every 3 seconds
+                        sendLocationToBackend(lat, lng, location);
+                    } else {
+                        document.getElementById("location").innerText = "Location not found";
+                    }
+                })
+                .catch(err => {
+                    console.error("Error fetching address:", err);
+                    document.getElementById("location").innerText = "Error fetching location";
+                });
+        }
+    
+        // Function to send location data to the backend
+        function sendLocationToBackend(lat, lng, location) {
+            fetch('/api/save-location/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({
+                    latitude: lat,
+                    longitude: lng,
+                    location_address: location
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Location saved:", data);
+            })
+            .catch(err => {
+                console.error("Error saving location:", err);
+            });
+        }
+    
+        // Update location every 3 seconds
+        function updateLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    userLat = position.coords.latitude;
+                    userLng = position.coords.longitude;
+                    getAddress(userLat, userLng);
+                }, function(error) {
+                    console.log("Error getting the user location:", error);
+                    document.getElementById("location").innerText = "Error getting location";
+                });
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+                document.getElementById("location").innerText = "Geolocation not supported";
+            }
+        }
+    
+        // Initialize location updates
+        setInterval(updateLocation, 3000);
+    
+        // Initial call to update the location
+        updateLocation();
+    </script>
 </body>
 </html>

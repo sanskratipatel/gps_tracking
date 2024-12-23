@@ -10,7 +10,7 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            background: linear-gradient(135deg, #221233, #0c2653);
             color: #fff;
         }
 
@@ -45,7 +45,7 @@
         }
 
         table th {
-            background-color: #2575fc;
+            background-color: #063587;
             color: #fff;
         }
 
@@ -82,7 +82,7 @@
         }
 
         .logout-btn:hover {
-            background-color: #ff4040;
+            background-color: #b98383;
         }
     </style>
     <script>
@@ -103,7 +103,7 @@
             <thead>
                 <tr>
                     <th>Username</th>
-                    <!-- <th>ID</th> -->
+                    <th>ID</th>
                     <th>Email</th>
                     <th>Actions</th>
                 </tr>
@@ -116,7 +116,7 @@
                     <td>{{ user.email }}</td>
                     <td>
                         <a href="{% url 'user_profile' user.id %}">
-                            <button>Show Details</button>
+                            <button>Show Location</button>
                         </a>
                     </td>
                 </tr>
@@ -124,7 +124,7 @@
             </tbody>
         </table>
 
-        <p><a href="{% url 'user_profile' user.id %}">View Your Information</a></p>
+        <p><a href="{% url 'user_profile' user.id %}">View Your Location</a></p>
         <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
 </body>

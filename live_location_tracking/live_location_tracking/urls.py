@@ -36,4 +36,17 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('user/<int:user_id>/', tracking_views.profile_view, name='user_profile'), 
     path('api/location/<int:user_id>/', tracking_views.get_latest_location, name='get_latest_location'),
+    path('forgot-password/', user_views.ForgotPasswordView.as_view(), name='forgot_password'),
+    path('verify-otp/', user_views.VerifyOtpView.as_view(), name='verify_otp'),
+    path('change-password/', user_views.ChangePasswordView.as_view(), name='change_password'),
 ]
+# from django.urls import path
+# from users import views as user_views
+
+# urlpatterns = [
+#     path('', RedirectView.as_view(url='login/', permanent=False)),  # Redirect root to login
+#     path('admin/', admin.site.urls),
+#     path('register/', user_views.RegisterView.as_view(), name='register'),
+#     path('login/', user_views.LoginView.as_view(), name='login'),
+#     path('dashboard/', user_views.dashboard, name='dashboard'),
+    
