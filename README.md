@@ -1,6 +1,6 @@
 # **Live Location Tracking System**
 
-A real-time location tracking system built using **Python**, **Django** and **WebSockets**. This system provides features like user authentication, live location updates, admin controls, and role-based access. The project uses PostgreSQL as the database and integrates OpenCage for reverse geocoding to enhance location data.
+A real-time location tracking system built using **Python**, **Django** and **WebSockets**. This system provides features like user authentication, live location updates, admin controls, and role-based access. The project uses PostgreSQL as the database and integrates OpenCage for reverse geocoding to enhance location data.cv
 
 
 ## **Features**
