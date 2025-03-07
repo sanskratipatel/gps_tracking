@@ -19,7 +19,7 @@ A real-time location tracking system built using **Python**, **Django** and **We
    - View live locations of all users.  
    - Manage user roles and data.  
 
-4. **Database**  
+4. **Database**  hhh
    - PostgreSQL database to store user data and location logs.
 
 5. **Responsive Frontend**  
