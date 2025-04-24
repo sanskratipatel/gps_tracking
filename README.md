@@ -24,7 +24,7 @@ A real-time location tracking system built using **Python**, **Django** and **We
 
 5. **Responsive Frontend**  
    - User-friendly HTML templates with integrated CSS and JavaScript.
-dddf
+
 ---
 
 ## **Technologies Used**
