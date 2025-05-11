@@ -139,7 +139,6 @@ live_location_tracking/
    - User Interface: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
 ---
-
 ## **Usage**
 
 1. **User Registration and Login**
@@ -155,8 +154,6 @@ live_location_tracking/
    - Follow the link to change your password.
 
 ---
-
-
 
 ## **Technologies Used**
 
@@ -212,11 +209,9 @@ leaflet==1.7.1
 Contributions are welcome! Please fork the repository, make your changes, and submit a pull request.
 
 ---
-
 ## **License**
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
 
 ---
-
 Feel free to let me know if you want adjustments or additional details!
