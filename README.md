@@ -23,7 +23,7 @@ A real-time location tracking system built using **Python**, **Django** and **We
    - PostgreSQL database to store user data and location logs.
 
 5. **Responsive Frontend**  
-   - User-friendly HTML templates with integrated CSS and JavaScript.
+   - User-friendly HTML5 templates with integrated CSS and JavaScript.
 
 ---
 
